@@ -22,11 +22,11 @@ public class JDBCConnection {
         try {
             connection = DriverManager.getConnection(URL, USER, PASS);
             Statement statement = connection.createStatement();
+            statement.execute("update employee_payroll set salary=160000 where name='Mark'");
             ResultSet result = statement.executeQuery("select * from employee_payroll");
             while (result.next()){
                 System.out.println(result.getInt("id")+" " +
                         result.getString(2) +" "+
-                        result.getString(3)+ " "+
                         result.getDouble(4)+" "+
                         result.getDate(5));
             }
