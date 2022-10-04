@@ -14,27 +14,24 @@ public class JDBCConnection {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            System.out.println("Driver loaded");
+
         } catch (ClassNotFoundException e) {
             System.out.println("Cannot find the driver in ths classpath");
         }
-
-        listDrivers();
-
-        System.out.println("Connecting to Database" + URL);
+        
         try {
             connection = DriverManager.getConnection(URL, USER, PASS);
-            System.out.println("Connection is Successful" + connection);
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery("select * from employee_payroll");
+            while (result.next()){
+                System.out.println(result.getInt("id")+" " +
+                        result.getString(2) +" "+
+                        result.getString(3)+ " "+
+                        result.getDouble(4)+" "+
+                        result.getDate(5));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-        private static void listDrivers() {
-            Enumeration<Driver> driverList = DriverManager.getDrivers();
-            while (driverList.hasMoreElements()) {
-                Driver driverClass = driverList.nextElement();
-                System.out.println(" " + driverClass.getClass().getName());
-            }
-
-        }
 }
